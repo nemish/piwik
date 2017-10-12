@@ -10,7 +10,6 @@ namespace Piwik\Plugin;
 
 use Piwik\API\Proxy;
 use Piwik\API\Request;
-use Piwik\Cache;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\DataTable;
@@ -19,7 +18,6 @@ use Piwik\Metrics;
 use Piwik\Cache as PiwikCache;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
-use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 use Exception;
 use Piwik\Widget\WidgetsList;
@@ -597,6 +595,12 @@ class Report
             $report['isSubtableReport'] = $this->isSubtableReport;
         }
 
+        $dimensions = $this->getDimensions();
+
+        if (count($dimensions) > 1) {
+            $report['dimensions'] = $dimensions;
+        }
+
         $report['metrics']              = $this->getMetrics();
         $report['metricsDocumentation'] = $this->getMetricsDocumentation();
         $report['processedMetrics']     = $this->getProcessedMetrics();
@@ -722,6 +726,29 @@ class Report
     public function getDimension()
     {
         return $this->dimension;
+    }
+
+    /**
+     * Get dimensions used for current report and its subreports
+     *
+     * @return array [dimensionId => dimensionName]
+     * @ignore
+     */
+    public function getDimensions()
+    {
+        $dimensions = [];
+
+        if (!empty($this->getDimension())) {
+            $dimensionId = str_replace('.', '_', $this->getDimension()->getId());
+            $dimensions[$dimensionId] = $this->getDimension()->getName();
+        }
+
+        if (!empty($this->getSubtableDimension())) {
+            $subDimensionId = str_replace('.', '_', $this->getSubtableDimension()->getId());
+            $dimensions[$subDimensionId] = $this->getSubtableDimension()->getName();
+        }
+
+        return $dimensions;
     }
 
     /**
