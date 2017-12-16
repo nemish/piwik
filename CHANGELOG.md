@@ -4,6 +4,12 @@ This is the Developer Changelog for Piwik platform developers. All changes in ou
 
 The Product Changelog at **[piwik.org/changelog](https://piwik.org/changelog)** lets you see more details about any Piwik release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Piwik 3.2.2
+
+### Breaking Changes
+* The `historyService` along with `broadcast.init`, `broadcast.propagateAjax`, `broadcast.pageLoad` have been deprecated and will be removed in Piwik 4. 
+
+
 ## Piwik 3.2.1
 
 ### New APIs

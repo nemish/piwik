@@ -46,6 +46,9 @@ var broadcast = {
 
     /**
      * Initializes broadcast object
+     *
+     * @deprecated in 3.2.2, will be removed in Piwik 4
+     *
      * @return {void}
      */
     init: function (noLoadingMessage) {
@@ -71,6 +74,8 @@ var broadcast = {
      * 3. after pushing "Go Back" button of a browser
      *
      * * Note: the method is manipulated in Overlay/javascripts/Piwik_Overlay.js - keep this in mind when making changes.
+     *
+     * @deprecated since 3.2.2, will be removed in Piwik 4
      *
      * @param {string}  hash to load page with
      * @return {void}
