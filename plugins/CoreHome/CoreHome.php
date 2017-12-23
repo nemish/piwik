@@ -411,5 +411,11 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_ShortcutCalendar';
         $translationKeys[] = 'CoreHome_ShortcutSearch';
         $translationKeys[] = 'CoreHome_ShortcutHelp';
+        $translationKeys[] = 'CoreHome_StandardReport';
+        $translationKeys[] = 'CoreHome_ReportWithMetadata';
+        $translationKeys[] = 'CoreHome_ReportType';
+        $translationKeys[] = 'CoreHome_RowLimit';
+        $translationKeys[] = 'CoreHome_ExportFormat';
+        $translationKeys[] = 'CoreHome_CustomLimit';
     }
 }
