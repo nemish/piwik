@@ -2371,7 +2371,6 @@ if (typeof window.Piwik !== 'object') {
 
             findContentNodes: function ()
             {
-
                 var cssSelector  = '.' + this.CONTENT_CLASS;
                 var attrSelector = '[' + this.CONTENT_ATTR + ']';
                 var contentNodes = query.findMultiple([cssSelector, attrSelector]);
@@ -2671,9 +2670,10 @@ if (typeof window.Piwik !== 'object') {
             },
             isNodeVisible: function (node)
             {
-                var isItVisible  = isVisible(node);
-                var isInViewport = this.isOrWasNodeInViewport(node);
-                return isItVisible && isInViewport;
+                if (isVisible(node)) {
+                    node.alreadyViewed = this.isOrWasNodeInViewport(node);
+                }
+                return !!node && !!node.alreadyViewed;
             },
             buildInteractionRequestParams: function (interaction, name, piece, target)
             {
@@ -4913,14 +4913,20 @@ if (typeof window.Piwik !== 'object') {
                     return [];
                 }
 
+                contentNodes = contentNodes.filter(function (item) {
+                    return !item.alreadyViewed;
+                });
+
                 var index;
 
                 for (index = 0; index < contentNodes.length; index++) {
-                    if (!content.isNodeVisible(contentNodes[index])) {
+                    var node = contentNodes[index];
+                    if (!content.isNodeVisible(node)) {
                         contentNodes.splice(index, 1);
                         index--;
                     }
                 }
+
 
                 if (!contentNodes || !contentNodes.length) {
                     return [];
@@ -6579,7 +6585,7 @@ if (typeof window.Piwik !== 'object') {
              */
             this.disableHeartBeatTimer = function () {
                 heartBeatDown();
-                
+
                 if (configHeartBeatDelay || heartBeatSetUp) {
                     if (windowAlias.removeEventListener) {
                         windowAlias.removeEventListener('focus', heartBeatOnFocus, true);
